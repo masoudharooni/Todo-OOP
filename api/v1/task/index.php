@@ -2,6 +2,7 @@
 
 use Services\Tasks;
 use Utility\ApiValidator;
+use Utility\Cache;
 use Utility\Response;
 
 include "../../../autoload.php";
@@ -9,6 +10,10 @@ include "../../../autoload.php";
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 $tasks = new Tasks;
 $dataOfBodyRequest = json_decode(file_get_contents("php://input"), true);
+
+// Cache::start();
+// echo "Hello" . rand(100, 999);
+// Cache::end();
 
 switch ($requestMethod) {
     case 'GET':
@@ -23,6 +28,9 @@ switch ($requestMethod) {
             'folderId' => is_numeric($queryStringsParameters['folderId']) || is_null($queryStringsParameters['folderId']),
             'taskId' => is_numeric($queryStringsParameters['taskId']) || is_null($queryStringsParameters['taskId']),
         ];
+        if (Cache::isExistCache())
+            Response::setHeaders(Response::HTTP_OK);
+        Cache::start();
         if (!$checkQueryStringValidation['userId'])
             Response::respondByDie(['user_id is a require parameter!'], Response::HTTP_NOT_ACCEPTABLE);
 
@@ -33,8 +41,9 @@ switch ($requestMethod) {
             Response::respondByDie(['task_id must be an integer!'], Response::HTTP_NOT_ACCEPTABLE);
 
         $response = $tasks->get($queryStringsParameters['userId'], $queryStringsParameters['folderId'], $queryStringsParameters['taskId'], $queryStringsParameters['search']);
-        Response::respondByDie($response, Response::HTTP_OK);
-
+        echo Response::respond($response, Response::HTTP_OK);
+        Cache::end();
+        exit;
     case 'POST':
         if (!ApiValidator::isValidTaskForCreate($dataOfBodyRequest))
             Response::respondByDie(['Your parameters is not valid for create a new task!'], Response::HTTP_NOT_ACCEPTABLE);
