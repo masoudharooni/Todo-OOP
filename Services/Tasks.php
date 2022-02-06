@@ -23,4 +23,8 @@ class Tasks
     {
         return $this->object->update($data);
     }
+    public function delete(int $taskId): bool
+    {
+        return $this->object->delete($taskId);
+    }
 }

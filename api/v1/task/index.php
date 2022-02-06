@@ -47,8 +47,10 @@ switch ($requestMethod) {
         $updateStatus = $tasks->update($dataOfBodyRequest);
         Response::respondByDie([$updateStatus], Response::HTTP_OK);
     case 'DELETE':
-        echo "DELETE request";
-        break;
+        if (!ApiValidator::isValidTaskForDelete($dataOfBodyRequest))
+            Response::respondByDie(['parameter is not valid for delete a task!'], Response::HTTP_NOT_ACCEPTABLE);
+        $response = $tasks->delete($dataOfBodyRequest['id']);
+        Response::respondByDie([$response], Response::HTTP_OK);
     default:
         echo "Request method is not valid!";
         break;
