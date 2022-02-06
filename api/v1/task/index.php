@@ -11,10 +11,6 @@ $requestMethod = $_SERVER['REQUEST_METHOD'];
 $tasks = new Tasks;
 $dataOfBodyRequest = json_decode(file_get_contents("php://input"), true);
 
-// Cache::start();
-// echo "Hello" . rand(100, 999);
-// Cache::end();
-
 switch ($requestMethod) {
     case 'GET':
         $queryStringsParameters = [
