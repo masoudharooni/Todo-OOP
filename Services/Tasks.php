@@ -19,4 +19,8 @@ class Tasks
     {
         return $this->object->create($data);
     }
+    public function update(array $data): bool
+    {
+        return $this->object->update($data);
+    }
 }

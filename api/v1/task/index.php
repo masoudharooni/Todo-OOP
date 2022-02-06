@@ -42,8 +42,10 @@ switch ($requestMethod) {
         $response  = $tasks->get(user_id: $dataOfBodyRequest['user_id'], id: $newTaskId);
         Response::respondByDie($response, Response::HTTP_CREATED);
     case 'PUT':
-        echo "PUT request";
-        break;
+        if (!ApiValidator::isValidTaskForUpdate($dataOfBodyRequest))
+            Response::respondByDie(['Your parameters is not valid for update a task!'], Response::HTTP_NOT_MODIFIED);
+        $updateStatus = $tasks->update($dataOfBodyRequest);
+        Response::respondByDie([$updateStatus], Response::HTTP_OK);
     case 'DELETE':
         echo "DELETE request";
         break;
