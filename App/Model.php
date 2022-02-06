@@ -9,10 +9,10 @@ include "interfaces.php";
 abstract class Model extends Connection implements createable, updateable, displayable
 {
     protected $table;
-    protected $user_id;
+    // protected $user_id;
     public function __construct()
     {
-        $this->user_id = $_SESSION['login']->id;
+        // $this->user_id = $_SESSION['login']->id;
         // Connection to DataBase
         $this->connect();
     }

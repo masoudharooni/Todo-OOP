@@ -19,7 +19,7 @@ interface updateable
 
 interface displayable
 {
-    public function display(int $folder_id = null, int $id = null);
+    public function display(int $user_id, int $folder_id = null, int $id = null);
 }
 
 interface authable

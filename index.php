@@ -18,12 +18,14 @@ if (isset($_GET['logout'])) {
 if (!isset($_SESSION['login'])) {
     header("Location:auth.php");
 }
+$currenctUserId = $_SESSION['login']->id;
+
 
 $allTask = new Task;
 if (isset($_GET['folder']) and is_numeric($_GET['folder'])) {
-    $allTask = $allTask->display($_GET['folder'], null);
+    $allTask = $allTask->display($currenctUserId, $_GET['folder'], null);
 } else {
-    $allTask = $allTask->display();
+    $allTask = $allTask->display($currenctUserId);
 }
 
 

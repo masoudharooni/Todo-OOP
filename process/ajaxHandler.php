@@ -2,6 +2,7 @@
 
 use App\Folder;
 use App\Task;
+use Utility\Helper;
 
 if (!isset($_SERVER['HTTP_X_REQUESTED_WITH']) or strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) != 'xmlhttprequest') {
     die("acsess denied --- Request is not AJAX!");
@@ -54,7 +55,7 @@ if ($_POST['action'] == "updateFolder") {
 // search task 
 if ($_POST['action'] == "searchTask") {
     $taskObj = new Task;
-    $listOfTask = $taskObj->search($_POST['char']);
+    $listOfTask = $taskObj->search(Helper::getCurrentUserId(), $_POST['char']);
     if (!is_null($listOfTask)) {
         foreach ($listOfTask as $task) {
             echo "<a href='?folder={$task->folder_id}'><div class='result'>{$task->title}</div></a>";
