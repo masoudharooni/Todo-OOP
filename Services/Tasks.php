@@ -15,8 +15,8 @@ class Tasks
     {
         return $this->object->display($user_id, $folder_id, $id, $char);
     }
-    public function search(int $user_id, string $character)
+    public function add(array $data): int
     {
-        return $this->object->search($user_id, $character);
+        return $this->object->create($data);
     }
 }

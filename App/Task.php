@@ -14,7 +14,7 @@ class Task extends Model
     {
         $sql = "INSERT INTO {$this->table} (folder_id , title , user_id) VALUES (:folder_id,:title , :user_id)";
         $stmt = $this->conn->prepare($sql);
-        $stmt->execute([":folder_id" => $data['folder_id'], ":title" => $data['title'], ":user_id" => $this->user_id]);
+        $stmt->execute([":folder_id" => $data['folder_id'], ":title" => $data['title'], ":user_id" => $data['user_id']]);
         return $this->conn->lastInsertId();
     }
 
