@@ -50,38 +50,64 @@ class ApiValidator
     {
         return self::isValidTask($parameters, 'delete');
     }
+
     // folder validation
+    private static function isValidFolderParameters(array $parameters, string $method): bool
+    {
+        $sizeOfArray = null;
+        $listOfParameter = null;
+        $checkParameterDataType = null;
+        switch ($method) {
+            case 'create':
+                $sizeOfArray = 2;
+                $listOfParameter = ['user_id', 'title'];
+                $checkParameterDataType = 'user_id';
+                break;
+
+            case 'update':
+                $sizeOfArray = 2;
+                $listOfParameter = ['id', 'title'];
+                $checkParameterDataType = "id";
+                break;
+
+            case 'delete':
+                $sizeOfArray = 1;
+                $listOfParameter = ['id'];
+                $checkParameterDataType = "id";
+        }
+
+        if (sizeof($parameters) != $sizeOfArray)
+            return false;
+        foreach ($parameters as $key => $value)
+            if (!in_array($key, $listOfParameter) || is_null($value))
+                return false;
+        if (!is_int($parameters[$checkParameterDataType]))
+            return false;
+        return true;
+    }
 
     public static function isValidFolderForCreate(array $parameters): bool
     {
-        if (sizeof($parameters) != 2)
-            return false;
-        foreach ($parameters as $key => $value)
-            if (!in_array($key, ['user_id', 'title']) || is_null($value))
-                return false;
-        if (!is_int($parameters['user_id']))
-            return false;
-        return true;
+        return self::isValidFolderParameters($parameters, 'create');
     }
     public static function isValidParametersForUpdateFolder(array $parameters): bool
     {
-        if (sizeof($parameters) != 2)
-            return false;
-        foreach ($parameters as $key => $value)
-            if (!in_array($key, ['id', 'title']) || is_null($value))
-                return false;
-        if (!is_int($parameters['id']))
-            return false;
-        return true;
+        return self::isValidFolderParameters($parameters, 'update');
     }
     public static function isValidParameterForDeleteFolder(array $parameters): bool
     {
-        if (sizeof($parameters) != 1)
+        return self::isValidFolderParameters($parameters, 'delete');
+    }
+
+    # athentication data validation
+    public static function authDataValidator(array $data): bool
+    {
+        if (sizeof($data) != 3)
             return false;
-        foreach ($parameters as $key => $value)
-            if (!in_array($key, ['id']) || is_null($value))
+        foreach ($data as $key => $value)
+            if (!in_array($key, ['action', 'email', 'password']) || is_null($value))
                 return false;
-        if (!is_int($parameters['id']))
+        if (!in_array($data['action'], ['login', 'signup']))
             return false;
         return true;
     }

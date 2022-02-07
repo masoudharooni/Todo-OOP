@@ -5,7 +5,6 @@ namespace App;
 
 include "interfaces.php";
 include 'traits.php';
-include "Connection.php";
 session_start();
 
 class Auth extends Connection implements authable
@@ -17,7 +16,6 @@ class Auth extends Connection implements authable
     {
         $this->connect();
     }
-
 
     // * sign UP method --- arguments => password and email in $data array
     public function signUp(array $data)
