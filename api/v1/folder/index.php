@@ -36,8 +36,10 @@ switch ($requestMethod) {
         $response = $folders->update($dataOfBodyRequest);
         Response::respondByDie([$response], Response::HTTP_OK);
     case 'DELETE':
-        echo "DELETE";
-        break;
+        if (!ApiValidator::isValidParameterForDeleteFolder($dataOfBodyRequest))
+            Response::respondByDie(['parameters are not valid!'], Response::HTTP_NOT_ACCEPTABLE);
+        $response = $folders->delete($dataOfBodyRequest['id']);
+        Response::respondByDie([$response], Response::HTTP_OK);
     default:
         echo "request method is not valid!";
         break;

@@ -74,4 +74,15 @@ class ApiValidator
             return false;
         return true;
     }
+    public static function isValidParameterForDeleteFolder(array $parameters): bool
+    {
+        if (sizeof($parameters) != 1)
+            return false;
+        foreach ($parameters as $key => $value)
+            if (!in_array($key, ['id']) || is_null($value))
+                return false;
+        if (!is_int($parameters['id']))
+            return false;
+        return true;
+    }
 }

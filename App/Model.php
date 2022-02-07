@@ -8,11 +8,8 @@ include "interfaces.php";
 abstract class Model extends Connection implements createable, updateable
 {
     protected $table;
-    // protected $user_id;
     public function __construct()
     {
-        // $this->user_id = $_SESSION['login']->id;
-        // Connection to DataBase
         $this->connect();
     }
     public function delete(int $id): bool

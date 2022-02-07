@@ -23,4 +23,8 @@ class Folders
     {
         return $this->object->update($parameters);
     }
+    public function delete(int $id): bool
+    {
+        return $this->object->delete($id);
+    }
 }
