@@ -31,8 +31,10 @@ switch ($requestMethod) {
         $respons = $folders->add($dataOfBodyRequest);
         Response::respondByDie([$respons], Response::HTTP_CREATED);
     case 'PUT':
-        echo "PUT";
-        break;
+        if (!ApiValidator::isValidParametersForUpdateFolder($dataOfBodyRequest))
+            Response::respondByDie(['Parameters is not valid'], Response::HTTP_NOT_MODIFIED);
+        $response = $folders->update($dataOfBodyRequest);
+        Response::respondByDie([$response], Response::HTTP_OK);
     case 'DELETE':
         echo "DELETE";
         break;

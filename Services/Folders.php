@@ -19,4 +19,8 @@ class Folders
     {
         return $this->object->create($parameters);
     }
+    public function update(array $parameters): bool
+    {
+        return $this->object->update($parameters);
+    }
 }
