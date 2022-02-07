@@ -2,6 +2,7 @@
 
 use Services\Folders;
 use Utility\ApiValidator;
+use Utility\Cache;
 use Utility\Response;
 
 include "../../../autoload.php";
@@ -18,13 +19,16 @@ switch ($requestMethod) {
             'userId' => is_numeric($queryStringParameter['userId']),
             'folderId' => is_numeric($queryStringParameter['folderId']) || is_null($queryStringParameter['folderId'])
         ];
+        if (Cache::isExistCache())
+            Response::setHeaders(Response::HTTP_OK);
+        Cache::start();
         if (!$checkQueryStringValidation['userId'])
             Response::respondByDie(["user_id parameter is required!"], Response::HTTP_NOT_ACCEPTABLE);
         if (!$checkQueryStringValidation['folderId'])
             Response::respondByDie(["id parameter should be an interger!"], Response::HTTP_NOT_ACCEPTABLE);
         $respons = $folders->get($queryStringParameter['userId'], $queryStringParameter['folderId']);
-        Response::respondByDie($respons, Response::HTTP_OK);
-
+        echo Response::respond($respons, Response::HTTP_OK);
+        Cache::end();
     case 'POST':
         if (!ApiValidator::isValidFolderForCreate($dataOfBodyRequest))
             Response::respondByDie(['Parameters are not valid!'], Response::HTTP_NOT_ACCEPTABLE);
