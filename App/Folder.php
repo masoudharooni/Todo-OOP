@@ -10,7 +10,7 @@ class Folder extends Model
     {
         $sql = "INSERT INTO {$this->table} (user_id , title) VALUES (:user_id,:title)";
         $stmt = $this->conn->prepare($sql);
-        return $stmt->execute([":user_id" => $this->user_id, ":title" => $data['title']]) ?? false;
+        return $stmt->execute([":user_id" => $data['user_id'], ":title" => $data['title']]) ?? false;
     }
 
     // !* update method----arguments = title and folder id in an array *!

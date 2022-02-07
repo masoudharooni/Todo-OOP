@@ -15,4 +15,8 @@ class Folders
     {
         return $this->object->display($user_id, $folder_id);
     }
+    public function add(array $parameters): bool
+    {
+        return $this->object->create($parameters);
+    }
 }

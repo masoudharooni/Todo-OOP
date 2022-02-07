@@ -50,4 +50,17 @@ class ApiValidator
     {
         return self::isValidTask($parameters, 'delete');
     }
+    // folder validation
+
+    public static function isValidFolderForCreate(array $parameters): bool
+    {
+        if (sizeof($parameters) != 2)
+            return false;
+        foreach ($parameters as $key => $value)
+            if (!in_array($key, ['user_id', 'title']) || is_null($value))
+                return false;
+        if (!is_int($parameters['user_id']))
+            return false;
+        return true;
+    }
 }

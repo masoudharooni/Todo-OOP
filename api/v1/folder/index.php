@@ -1,11 +1,13 @@
 <?php
 
 use Services\Folders;
+use Utility\ApiValidator;
 use Utility\Response;
 
 include "../../../autoload.php";
 $requestMethod = $_SERVER['REQUEST_METHOD'];
 $folders = new Folders;
+$dataOfBodyRequest = json_decode(file_get_contents('php://input'), true);
 switch ($requestMethod) {
     case 'GET':
         $queryStringParameter = [
@@ -24,8 +26,10 @@ switch ($requestMethod) {
         Response::respondByDie($respons, Response::HTTP_OK);
 
     case 'POST':
-        echo "POST";
-        break;
+        if (!ApiValidator::isValidFolderForCreate($dataOfBodyRequest))
+            Response::respondByDie(['Parameters are not valid!'], Response::HTTP_NOT_ACCEPTABLE);
+        $respons = $folders->add($dataOfBodyRequest);
+        Response::respondByDie([$respons], Response::HTTP_CREATED);
     case 'PUT':
         echo "PUT";
         break;
