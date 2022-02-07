@@ -4,7 +4,7 @@ namespace Utility;
 
 class Cache
 {
-    private static $cacheStatus = 0; # enable or unable cache status
+    private static $cacheStatus = 1; # enable or unable cache status
     private static $cacheExpireTime = 3600;
     private static $cacheFile;
     public static function init()

@@ -4,7 +4,7 @@ namespace App;
 
 @session_start();
 include "interfaces.php";
-
+include "Connection.php";
 abstract class Model extends Connection implements createable, updateable
 {
     protected $table;

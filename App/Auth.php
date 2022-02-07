@@ -5,6 +5,7 @@ namespace App;
 
 include "interfaces.php";
 include 'traits.php';
+include "Connection.php";
 session_start();
 
 class Auth extends Connection implements authable
