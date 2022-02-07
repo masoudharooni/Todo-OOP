@@ -15,6 +15,6 @@ class Auth
     }
     public function login(array $data): bool
     {
-        return 1;
+        return $this->object->login($data);
     }
 }
