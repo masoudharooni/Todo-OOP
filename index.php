@@ -6,8 +6,7 @@ session_start();
 
 use App\Task;
 use App\Folder;
-
-
+use Utility\Helper;
 
 if (isset($_GET['logout'])) {
     if ($_GET['logout'] == true) {
@@ -23,7 +22,7 @@ $currenctUserId = $_SESSION['login']->id;
 
 $allTask = new Task;
 if (isset($_GET['folder']) and is_numeric($_GET['folder'])) {
-    $allTask = $allTask->display($currenctUserId, $_GET['folder'], null);
+    $allTask = $allTask->display($currenctUserId, $_GET['folder']);
 } else {
     $allTask = $allTask->display($currenctUserId);
 }
@@ -31,5 +30,5 @@ if (isset($_GET['folder']) and is_numeric($_GET['folder'])) {
 
 
 $allFolder = new Folder;
-$allFolder = $allFolder->display();
+$allFolder = $allFolder->display(Helper::getCurrentUserId());
 include 'views/tpl-index.php';

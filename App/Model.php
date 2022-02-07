@@ -3,10 +3,9 @@
 namespace App;
 
 @session_start();
-include "Connection.php";
 include "interfaces.php";
 
-abstract class Model extends Connection implements createable, updateable, displayable
+abstract class Model extends Connection implements createable, updateable
 {
     protected $table;
     // protected $user_id;

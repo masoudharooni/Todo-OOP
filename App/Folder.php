@@ -22,18 +22,18 @@ class Folder extends Model
     }
 
     // !* display method----arguments = null or folder_id*!
-    public function display(int $folder_id = null, int $id = null)
+    public function display(int $user_id, int $id = null)
     {
         $query_condition = null;
-        if (!is_null($folder_id)) {
-            $query_condition = " AND folder_id = :folder_id";
+        if (!is_null($id)) {
+            $query_condition = " AND id = :id";
         }
         $sql = "SELECT * FROM {$this->table} WHERE user_id = :user_id {$query_condition}";
         $stmt = $this->conn->prepare($sql);
         if (!is_null($query_condition)) {
-            $stmt->execute([':folder_id' => $folder_id, ':user_id' => $this->user_id]);
+            $stmt->execute([':id' => $id, ':user_id' => $user_id]);
         } else {
-            $stmt->execute([':user_id' => $this->user_id]);
+            $stmt->execute([':user_id' => $user_id]);
         }
         return $stmt->fetchAll(\PDO::FETCH_OBJ);
     }
